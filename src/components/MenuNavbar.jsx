@@ -1,12 +1,21 @@
 "use client";
 
-import supabase from "app/database/supabase";
+import { supabaseClient } from "app/database/supabase";
+import React, { useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 
 function MenuNavbar() {
+  /* Ejemplo de consumo de datos de supabase */
+  useEffect(() => {
+    const fetch = async () => {
+      const { data, error } = await supabaseClient.from("colonias").select();
+      console.log(data, error);
+    };
+    fetch();
+  });
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
