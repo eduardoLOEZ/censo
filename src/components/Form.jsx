@@ -11,32 +11,42 @@ const Form = () => {
   const [email, setEmail] = useState("");
   const [birthdate, setBirthdate] = useState("");
   const [sex, setSex] = useState("");
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState([]);
+  const [addressPerson, setAddressPerson] = useState("");
 
   /* Creamos funcion para mandar datos del formulario */
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
     const { data, error } = await supabaseClient.from("usuarios").insert([
       {
-        name,
-        last_name,
-        curp,
-        phone_number,
-        email,
-        birthdate,
-        sex,
-        address,
+        name: name,
+        last_name: last_name,
+        curp: curp,
+        phone_number: phone_number,
+        email: email,
+        birthdate: birthdate,
+        sex: sex,
+        address: addressPerson,
       },
     ]);
+
     console.log(data);
-    console.log(error);
   };
+
+  useEffect(() => {
+    const fetchAddress = async () => {
+      const { data, error } = await supabaseClient.from("colonias").select("*");
+      setAddress(data);
+    };
+
+    fetchAddress();
+  }, []);
 
   /*
   TAREA
   - Mandar los formuarios a nuestra base de datos
   - Investigar los tipos de campos del formulario correctos
-  - En la funcion recuperar la información y mandarla a la base de datos
   - En el campo y el campo dirección, mandar a traer información con useEffect
   */
 
@@ -45,7 +55,7 @@ const Form = () => {
       <form className="form-horizontal">
         <fieldset>
           {/* Form Name */}
-          <legend>Form Name</legend>
+          <legend>Registro de personas</legend>
           {/* Text input*/}
           <div className="form-group">
             <label className="col-md-4 control-label" htmlFor="name">
@@ -58,6 +68,7 @@ const Form = () => {
                 type="text"
                 placeholder="Nombre aquí"
                 className="form-control input-md"
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
           </div>
@@ -73,6 +84,7 @@ const Form = () => {
                 type="text"
                 placeholder="Apellidos aquí"
                 className="form-control input-md"
+                onChange={(e) => setLastName(e.target.value)}
               />
             </div>
           </div>
@@ -88,6 +100,7 @@ const Form = () => {
                 type="text"
                 placeholder="CURP (18)"
                 className="form-control input-md"
+                onChange={(e) => setCurp(e.target.value)}
               />
             </div>
           </div>
@@ -103,6 +116,7 @@ const Form = () => {
                 type="text"
                 placeholder="Teléfono"
                 className="form-control input-md"
+                onChange={(e) => setPhoneNumber(e.target.value)}
               />
             </div>
           </div>
@@ -118,6 +132,7 @@ const Form = () => {
                 type="text"
                 placeholder="email@email.com"
                 className="form-control input-md"
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           </div>
@@ -133,6 +148,7 @@ const Form = () => {
                 type="date"
                 placeholder="dd/mm/yyyy"
                 className="form-control input-md"
+                onChange={(e) => setBirthdate(e.target.value)}
               />
             </div>
           </div>
@@ -142,9 +158,16 @@ const Form = () => {
               Sexo
             </label>
             <div className="col-md-4">
-              <select id="sex" name="sex" className="form-control">
-                <option value={1}>Option one</option>
-                <option value={2}>Option two</option>
+              <select
+                id="sex"
+                name="sex"
+                className="form-control"
+                value={sex}
+                onChange={(e) => setSex(e.target.value)}
+              >
+                <option value="">Seleccione...</option>
+                <option value="Hombre">Hombre</option>
+                <option value="Mujer">Mujer</option>
               </select>
             </div>
           </div>
@@ -154,9 +177,17 @@ const Form = () => {
               Dirección
             </label>
             <div className="col-md-4">
-              <select id="address" name="address" className="form-control">
-                <option value={1}>Option one</option>
-                <option value={2}>Option two</option>
+              <select
+                id="address"
+                name="address"
+                className="form-control"
+                onChange={(e) => setAddressPerson(e.target.value)}
+              >
+                {address.map((address) => (
+                  <option key={address.id} value={address.id}>
+                    {address.nombre}
+                  </option>
+                ))}
               </select>
             </div>
           </div>

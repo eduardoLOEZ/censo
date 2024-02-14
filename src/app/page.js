@@ -5,8 +5,9 @@ export default function Home() {
   return (
     <>
       <MenuNavbar />
-      <h1>Hola</h1>
-      <Form />
+      <div className="container">
+        <Form />
+      </div>
     </>
   );
 }
