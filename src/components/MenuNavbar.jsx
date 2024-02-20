@@ -1,6 +1,7 @@
 "use client";
 
 import { supabaseClient } from "app/database/supabase";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -21,14 +22,21 @@ function MenuNavbar() {
     fetch();
   });
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar expand="lg" className="bg-body-tertiary color-menu">
       <Container>
-        <Navbar.Brand href="#home">CENSO ACAPULCO OTIS</Navbar.Brand>
+        <Image src="/images/logo.jpg" alt="Gobierno" width={100} height={100} />
+        <Navbar.Brand href="#home" className="color-menu titulo-menu">
+          CENSO ACAPULCO OTIS
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/">Inicio</Nav.Link>
-            <Nav.Link href="/registers">Registros</Nav.Link>
+            <Nav.Link href="/" className="color-menu">
+              Inicio
+            </Nav.Link>
+            <Nav.Link href="/registers" className="color-menu">
+              Registros
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
