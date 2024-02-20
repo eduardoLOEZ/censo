@@ -6,7 +6,7 @@ const Registers = () => {
   return (
     <>
       <LayoutFrontal>
-        <div>Registers</div>
+        <div>REGISTROS</div>
         <RegisterTable />
       </LayoutFrontal>
     </>
