@@ -28,7 +28,7 @@ function MenuNavbar() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/">Inicio</Nav.Link>
-            <Nav.Link href="/registers">Registros</Nav.Link>
+            <Nav.Link href="/registros">Registros</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
