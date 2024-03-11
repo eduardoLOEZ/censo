@@ -1,5 +1,6 @@
 "use client";
 import { supabaseClient } from "app/database/supabase";
+import { data } from "autoprefixer";
 import React, { useEffect, useState } from "react";
 
 const Form = () => {
@@ -17,22 +18,48 @@ const Form = () => {
   /* Creamos funcion para mandar datos del formulario */
   const handleSubmit = async (event) => {
     event.preventDefault();
+  
+    try {
+      const { data, error } = await supabaseClient.from("usuarios").insert([
+        {
+          name: name,
+          last_name: last_name,
+          curp: curp,
+          phone_number: phone_number,
+          email: email,
+          birthdate: birthdate,
+          sex: sex,
+          address: addressPerson,
+        },
+      ]);
+  
+      if (error) {
+        console.error("Error al insertar datos:", error.message);
+      } else {
+        console.log("Datos insertados correctamente:", data);
+       
+      }
+      
 
-    const { data, error } = await supabaseClient.from("usuarios").insert([
-      {
-        name: name,
-        last_name: last_name,
-        curp: curp,
-        phone_number: phone_number,
-        email: email,
-        birthdate: birthdate,
-        sex: sex,
-        address: addressPerson,
-      },
-    ]);
+    } catch (error) {
+      console.error("Error al enviar el formulario:", error.message);
+    }
+    finally {
 
-    console.log(data);
+       // Limpiar el formulario después de enviar los datos
+       setName("");
+       setLastName("");
+       setCurp("");
+       setPhoneNumber("");
+       setEmail("");
+       setBirthdate("");
+       setSex("");
+       setAddressPerson("");
+       setAddress([]); // Limpiar el estado de address
+
+    }
   };
+  
 
   useEffect(() => {
     const fetchAddress = async () => {
@@ -67,6 +94,7 @@ const Form = () => {
                 name="name"
                 type="text"
                 placeholder="Nombre aquí"
+                value={name}
                 className="form-control input-md"
                 onChange={(e) => setName(e.target.value)}
               />
@@ -83,6 +111,7 @@ const Form = () => {
                 name="last_name"
                 type="text"
                 placeholder="Apellidos aquí"
+                value={last_name}
                 className="form-control input-md"
                 onChange={(e) => setLastName(e.target.value)}
               />
@@ -99,6 +128,7 @@ const Form = () => {
                 name="curp"
                 type="text"
                 placeholder="CURP (18)"
+                value={curp}
                 className="form-control input-md"
                 onChange={(e) => setCurp(e.target.value)}
               />
@@ -114,6 +144,7 @@ const Form = () => {
                 id="phone_number"
                 name="phone_number"
                 type="text"
+                value={phone_number}
                 placeholder="Teléfono"
                 className="form-control input-md"
                 onChange={(e) => setPhoneNumber(e.target.value)}
@@ -130,6 +161,7 @@ const Form = () => {
                 id="email"
                 name="email"
                 type="text"
+                value={email}
                 placeholder="email@email.com"
                 className="form-control input-md"
                 onChange={(e) => setEmail(e.target.value)}
@@ -146,6 +178,7 @@ const Form = () => {
                 id="birthdate"
                 name="birthdate"
                 type="date"
+                value={birthdate}
                 placeholder="dd/mm/yyyy"
                 className="form-control input-md"
                 onChange={(e) => setBirthdate(e.target.value)}
@@ -180,6 +213,7 @@ const Form = () => {
               <select
                 id="address"
                 name="address"
+                value={address}
                 className="form-control"
                 onChange={(e) => setAddressPerson(e.target.value)}
               >

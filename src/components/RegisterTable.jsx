@@ -1,10 +1,12 @@
 "use client";
-
 import { supabaseClient } from "app/database/supabase";
 import React, { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation';
 
 const RegisterTable = () => {
   const [registers, setRegisters] = useState([]);
+  const router = useRouter();
+
 
   useEffect(() => {
     const fetchRegisters = async () => {
@@ -23,6 +25,26 @@ const RegisterTable = () => {
 
     fetchRegisters();
   }, []);
+
+  
+
+  const handleDelete = async (id) => {
+    try {
+      const { error } = await supabaseClient.from("usuarios").delete().eq("id", id); 
+
+      if (error) {
+        throw error;
+      }
+
+      setRegisters((prevRegisters) => prevRegisters.filter((register) => register.id !== id));
+    } catch (error) {
+      console.error("Error al eliminar el registro:", error.message);
+    }
+  };
+
+  
+
+
 
   return (
     <>
@@ -50,10 +72,23 @@ const RegisterTable = () => {
               <td>{register.birthdate}</td>
               <td>{register.sex}</td>
               <td>{register.address}</td>
+              <td>
+                {/* Botón para eliminar */}
+                <button onClick={() => handleDelete(register.id)} style={{ backgroundColor: 'red', color: 'white' }}>Eliminar</button>
+                {/* Botón para actualizar */}
+                <button type="button" onClick={() => router.push(`/updated/${register.id}`)} style={{ backgroundColor: 'blue', color: 'white' }}>
+                    Actualizar
+                </button> 
+
+                
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      
+     
     </>
   );
 };
