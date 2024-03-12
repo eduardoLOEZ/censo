@@ -74,9 +74,9 @@ const RegisterTable = () => {
               <td>{register.address}</td>
               <td>
                 {/* Botón para eliminar */}
-                <button onClick={() => handleDelete(register.id)} style={{ backgroundColor: 'red', color: 'white' }}>Eliminar</button>
+                <button onClick={() => handleDelete(register.id)} className="btn-delete">Eliminar</button>
                 {/* Botón para actualizar */}
-                <button type="button" onClick={() => router.push(`/updated/${register.id}`)} style={{ backgroundColor: 'blue', color: 'white' }}>
+                <button type="button" onClick={() => router.push(`/updated/${register.id}`)} className="btn-update">
                     Actualizar
                 </button> 
 

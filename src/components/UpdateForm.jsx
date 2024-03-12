@@ -145,9 +145,9 @@ const UpdateForm = ({id}) => {
                   ))}
               </select>
           </div>
-          <button type="submit">Actualizar</button>
+          <button type="submit" className="btn-update">Actualizar</button>
           {/* Enlace para volver */}
-          <Link href="/registers">Volver a la lista de registros</Link>
+          <Link href="/registers" className="btn-back">Volver a la lista de registros</Link>
       </form>
   </>
       );
